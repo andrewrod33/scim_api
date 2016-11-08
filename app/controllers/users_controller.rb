@@ -1,28 +1,29 @@
 class UsersController < ApplicationController
   def create
-    @user = User.new(user_params)
+    build_user = ::Scim::ScimTypeBuilder.new(params).build_type
+    @user = build_user.create
 
     if @user.save
-      respond_with @user
+      render json: ScimPresenter.new(@user), status: :created
     else
-      show_failure
+      respond_with @user, :status => :unprocessable_entity
     end
+
   end
 
   def index
-    respond_with User.all
+    scim_users = User.all.collect do | user |
+      ScimPresenter.new(user)
+    end
+    respond_with scim_users
   end
 
   def show
-    respond_with User.find(params[:id])
+    respond_with ScimPresenter.new(User.find(params[:id]))
   end
 
   private
   def show_failure
-    respond_with @user, :status => :unprocessable_entity
-  end
-
-  def user_params
-    params[:user].permit(:first_name, :last_name, :username, :account_id)
+    respond_with  @user.errors.full_messages, :status => :unprocessable_entity
   end
 end
