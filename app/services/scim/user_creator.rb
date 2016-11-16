@@ -1,4 +1,4 @@
-module Services
+module Scim
   class UserCreator
     attr_reader :params, :user_hash
 
