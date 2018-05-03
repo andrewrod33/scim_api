@@ -4,7 +4,7 @@ gem 'active_model_serializers'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
+gem 'rails', '~> 5.2.0'
 gem 'responders'
 # downcase routes for SCIM endpoints
 gem 'route_downcaser'
